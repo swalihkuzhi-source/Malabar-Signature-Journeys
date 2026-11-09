@@ -1,0 +1,1 @@
+- [Validated Replit config edits](validated-replit-edits.md) — The schema-validated replacement overwrites the whole file; preserve existing settings before applying it.

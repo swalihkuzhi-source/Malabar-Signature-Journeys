@@ -1,0 +1,6 @@
+{
+  "installCommand": "pnpm install --filter @workspace/malabarways...",
+  "buildCommand": "pnpm --filter @workspace/malabarways run build",
+  "outputDirectory": "artifacts/malabarways/dist/public",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

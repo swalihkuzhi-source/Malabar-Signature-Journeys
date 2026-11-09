@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Malabarways"
+description = "A destination and culture-led travel website for Malabarways Private Limited, helping travellers explore South India, Kerala, signature Malabar journeys and local experiences, then enquire directly over WhatsApp."
+version = "1.0.0"
+id = "artifacts/malabarways"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21724
+
+[services.development]
+run = "pnpm --filter @workspace/malabarways run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/malabarways", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/malabarways/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21724"
+BASE_PATH = "/"
