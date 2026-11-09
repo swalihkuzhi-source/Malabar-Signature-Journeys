@@ -1,5 +1,5 @@
 {
-  "installCommand": "pnpm install --filter @workspace/malabarways...",
+  "installCommand": "pnpm install --no-frozen-lockfile --filter @workspace/malabarways...",
   "buildCommand": "pnpm --filter @workspace/malabarways run build",
   "outputDirectory": "artifacts/malabarways/dist/public",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
