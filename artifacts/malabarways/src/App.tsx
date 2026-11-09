@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter, Link, useRoute } from 'wouter';
-import { ArrowRight, Menu, X, MessageCircle, ChevronRight, MapPin, Clock3, Plane, TrainFront, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, Menu, X, MessageCircle, ChevronRight, MapPin, Clock3, Plane, TrainFront, ArrowUpRight, Sparkles, Compass, Star, Check } from 'lucide-react';
 import logo from '@assets/logo_1792901386678.png';
 
 const queryClient = new QueryClient();
@@ -124,11 +124,229 @@ const allDestinations = [...south,...kerala,...malabar];
 const findDestination=(slug:string)=>allDestinations.find(d=>slugify(d.name)===slug);
 const Video = ({id,title}:{id?:string;title:string}) => <div className="video-frame">{id?<iframe loading="lazy" title={`${title} film`} src={`https://www.youtube-nocookie.com/embed/${id}`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen/>:<div className="video-placeholder"><span className="eyebrow">A closer look</span><strong className="serif">{title}</strong></div>}</div>;
 function Metadata({title,description}:{title:string;description:string}){useEffect(()=>{document.title=title;const set=(key:string,val:string,property=false)=>{let el=document.querySelector(`meta[${property?'property':'name'}="${key}"]`) as HTMLMetaElement|null;if(!el){el=document.createElement('meta');el.setAttribute(property?'property':'name',key);document.head.appendChild(el)}el.content=val};set('description',description);set('og:title',title,true);set('og:description',description,true);set('og:type','website',true);set('og:image',logo,true);set('twitter:title',title);set('twitter:description',description);set('twitter:image',logo);},[title,description]);return null}
-function Shell({children}:{children:React.ReactNode}){const [open,setOpen]=useState(false);const nav=[['Journeys','/en/south-indian-tours'],['Kerala','/en/kerala-tours'],['Malabar Signatures','/en/malabar-signatures'],['Experiences','/en/experiences'],['Our story','/en/about']];return <><div className="topline">Journeys shaped by the people who call this place home</div><header className="nav"><div className="wrap navinner"><Link href="/" className="brand" aria-label="Malabar Ways home"><img src={logo} alt="Malabar Ways"/></Link><nav className="navlinks" aria-label="Main navigation">{nav.map(([t,p])=><Link key={p} href={p}>{t}</Link>)}</nav><a className="navcta" href={wa('a journey in South India')} target="_blank" rel="noreferrer">Plan a journey <ArrowRight size={14}/></a><button className="menu-toggle" aria-label={open?'Close menu':'Open menu'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button>{open&&<nav className="mobile-panel" aria-label="Mobile navigation">{nav.map(([t,p])=><Link key={p} href={p} onClick={()=>setOpen(false)}>{t}</Link>)}<a href={wa('a journey')} target="_blank" rel="noreferrer">Plan a journey</a></nav>}</div></header>{children}<Footer/><a className="floating-enquiry" href={wa('a journey with Malabar Ways')} target="_blank" rel="noreferrer" aria-label="Enquire on WhatsApp"><MessageCircle size={16}/> Enquire</a></>}
+function Shell({children}:{children:React.ReactNode}){
+  const [open,setOpen]=useState(false);
+  const [location]=useLocation();
+  const nav=[['Journeys','/en/south-indian-tours'],['Kerala','/en/kerala-tours'],['Malabar Signatures','/en/malabar-signatures'],['Experiences','/en/experiences'],['Our story','/en/about']];
+  return <><div className="topline">Journeys shaped by the people who call this place home</div><header className="nav"><div className="wrap navinner"><Link href="/" className="brand" aria-label="Malabar Ways home"><img src={logo} alt="Malabar Ways"/></Link><nav className="navlinks" aria-label="Main navigation">{nav.map(([t,p])=><Link key={p} href={p} style={location.startsWith(p)?{color:'#ad8a31',fontWeight:700}:{}}>{t}</Link>)}</nav><a className="navcta" href={wa('a journey in South India')} target="_blank" rel="noreferrer">Plan a journey <ArrowRight size={14}/></a><button className="menu-toggle" aria-label={open?'Close menu':'Open menu'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button>{open&&<nav className="mobile-panel" aria-label="Mobile navigation">{nav.map(([t,p])=><Link key={p} href={p} onClick={()=>setOpen(false)}>{t}</Link>)}<a href={wa('a journey')} target="_blank" rel="noreferrer">Plan a journey</a></nav>}</div></header>{children}<Footer/><a className="floating-enquiry" href={wa('a journey with Malabar Ways')} target="_blank" rel="noreferrer" aria-label="Enquire on WhatsApp"><span className="online-pulse"></span><MessageCircle size={16}/> Enquire</a></>}
 function Footer(){return <footer className="footer"><div className="wrap"><div className="footer-grid"><div><img className="footer-logo" src={logo} alt="Malabar Ways"/><p>Journeys into the people, food, craft, landscape and living traditions of South India. Rooted in Malabar.</p></div><div><h4>Find your way</h4><div className="footer-links"><Link href="/en/south-indian-tours">South India tours</Link><Link href="/en/kerala-tours">Kerala tours</Link><Link href="/en/malabar-signatures">Malabar Signatures</Link><Link href="/en/experiences">Experiences</Link><Link href="/en/about">About Malabar Ways</Link></div></div><div><h4>Talk to us</h4><p><a href="tel:+919496885372">+91 9496885372</a><br/>X-169, Kottachalil House, School Road Kuzhinholam, Kizhisseri, Thavanoor (P.O), Malappuram, Kerala, India</p><a href={wa('a custom journey')} target="_blank" rel="noreferrer">Start a conversation <ArrowUpRight size={13}/></a></div></div><div className="footer-bottom"><span>© Malabarways Private Limited</span><span>South India, told through its people.</span></div></div></footer>}
 function CTA({context}:{context:string}){return <section className="contact-band"><div className="wrap contact-inner"><h2>Some journeys begin with a question.</h2><a className="button" href={wa(context)} target="_blank" rel="noreferrer">Enquire about {context} <ArrowRight size={15}/></a></div></section>}
 function VideoSection({id,title}:{id?:string;title:string}){return <section className="section compact"><div className="wrap experience-detail-grid"><div><span className="eyebrow">See the place in motion</span><h2 className="display" style={{fontSize:'clamp(34px,4vw,54px)',marginTop:16}}>A first glimpse.<br/><i>Not the whole story.</i></h2><p className="section-intro">Let the landscapes, rhythms and everyday moments of {title} bring the journey into focus.</p></div><Video id={id} title={title}/></div></section>}
-function Home(){return <><Metadata title="Malabar Ways | Journeys into the living South" description="Travel South India through the people, food, craft, landscape and living traditions of Kerala and Malabar with Malabar Ways."/><section className="hero"><div className="wrap hero-content"><span className="eyebrow">South India, closer than you imagined</span><h1 className="display">Come for the<br/><i>land.</i> Stay for its stories.</h1><p>From a family kitchen in Malabar to the still waters of Kerala. Journeys made with the people who call this place home.</p><div className="hero-actions"><Link className="button" href="/en/malabar-signatures">Explore Malabar <ArrowRight size={15}/></Link><Link className="button outline" href="/en/kerala-tours">Find your Kerala</Link></div></div></section><section className="section"><div className="wrap intro-grid"><div><span className="eyebrow">A different way through</span><h2 className="display">More than a place<br/>to pass through.</h2></div><div><p className="intro-copy">Malabar Ways is where a journey begins with a scent. Fresh cardamom in a home kitchen. Wet clay on a potter’s wheel. Cotton threads on a handloom. We bring travellers close to the people, craft and traditions that keep South India alive.</p><p className="intro-note">“You will not just visit Malabar, Kerala or South India. You will live its stories.”</p></div></div></section><section className="section compact"><div className="wrap"><div className="section-head"><div><span className="eyebrow">Choose the feeling</span><h2 className="display">Where will the story take you?</h2></div><p className="section-intro">Pick one place, or let us connect the coast, hills, heritage and table into a journey that feels like yours.</p></div><div className="destination-grid">{[{n:'South India',p:'/en/south-indian-tours',d:'Many worlds, one thoughtful journey.'},{n:'Kerala',p:'/en/kerala-tours',d:'Backwaters, tea country and old ports.'},{n:'Malabar Signatures',p:'/en/malabar-signatures',d:'The north Kerala few have seen.'}].map((x,i)=><Link href={x.p} className="destination-card" key={x.n}><span className="card-no">0{i+1} / JOURNEYS</span><div><h3>{x.n}</h3><p>{x.d}</p></div><span className="arrow"><ArrowUpRight/></span></Link>)}</div></div></section><section className="section dark-band"><div className="wrap"><div className="section-head"><div><span className="eyebrow">The Malabar Ways difference</span><h2 className="display">Travel with a little more<br/><i>meaning.</i></h2></div><p className="section-intro">We work with local hosts, families, artists and artisans. The result is a journey that gives back to the places that make it unforgettable.</p></div><div className="reason-grid">{[['Local knowledge','We live here. We know the kitchens, craft workshops and quiet corners.'],['Human encounters','Meet the people who carry the traditions, not just the landmarks.'],['Thoughtful arrivals','Airport and station pickups, private transfers and a clear road ahead.'],['A fair exchange','Your visit supports the hosts, artists and communities you meet.'],['Your own pace','A single experience or a fully custom route. We shape it together.']].map(([t,p])=><div className="reason" key={t}><strong>{t}</strong><p>{p}</p></div>)}</div></div></section><section className="quote-band"><div className="wrap"><p>“A place is never only its scenery. It is the hands that cook, make, welcome and remember.”</p></div></section><section className="section"><div className="wrap"><div className="section-head"><div><span className="eyebrow">Meet the living traditions</span><h2 className="display">Not behind glass.<br/>Part of everyday life.</h2></div><Link href="/en/experiences" className="button outline">All experiences <ArrowRight size={14}/></Link></div><div className="experiences-grid">{experiences.slice(0,4).map((e,i)=><Link href={`/en/experiences/${e.slug}`} className="experience-tile" key={e.slug}><span>Experience 0{i+1}</span><div><h3>{e.title}</h3><p>{e.tagline}</p></div><div className="tile-link">Discover <ArrowUpRight size={15}/></div></Link>)}</div></div></section><CTA context="a South India journey"/><VideoSection id="3WvLkuteM3M" title="Malabar"/></>}
+
+function JourneyCurator(){
+  const [region, setRegion] = useState('Malabar Signatures (North Kerala)');
+  const [duration, setDuration] = useState('4 to 6 days');
+  const [focus, setFocus] = useState('Living Arts & Food Trails');
+  const query = `a customized journey to ${region} for ${duration} focusing on ${focus}`;
+
+  return <section className="curator-section">
+    <div className="wrap">
+      <div className="curator-card">
+        <div className="curator-header">
+          <span className="eyebrow"><Sparkles size={11} style={{display:'inline',marginRight:4}}/> Curate Your Route</span>
+          <h3>Where does your curiosity lead?</h3>
+          <p>Choose your preferences and our local hosts will shape a private itinerary around you.</p>
+        </div>
+        <div className="curator-grid">
+          <div className="curator-field">
+            <label><Compass size={12}/> Region</label>
+            <select value={region} onChange={e=>setRegion(e.target.value)}>
+              <option value="Malabar Signatures (North Kerala)">Malabar Signatures (North Kerala)</option>
+              <option value="Classic Kerala & Backwaters">Classic Kerala & Backwaters</option>
+              <option value="Western Ghats & Coffee Country">Western Ghats & Coffee Country</option>
+              <option value="Grand South India Expedition">Grand South India Expedition</option>
+            </select>
+          </div>
+          <div className="curator-field">
+            <label><Clock3 size={12}/> Duration</label>
+            <select value={duration} onChange={e=>setDuration(e.target.value)}>
+              <option value="2 to 3 days (Short Escape)">2 to 3 days (Short Escape)</option>
+              <option value="4 to 6 days (Immersive)">4 to 6 days (Immersive)</option>
+              <option value="7 to 10 days (Complete Circuit)">7 to 10 days (Complete Circuit)</option>
+              <option value="12+ days (Grand Expedition)">12+ days (Grand Expedition)</option>
+            </select>
+          </div>
+          <div className="curator-field">
+            <label><Star size={12}/> Experience Focus</label>
+            <select value={focus} onChange={e=>setFocus(e.target.value)}>
+              <option value="Living Arts & Rituals (Theyyam, Mappila)">Living Arts & Rituals (Theyyam, Mappila)</option>
+              <option value="Culinary & Spices (Malabar Biriyani, Farms)">Culinary & Spices (Biriyani, Farms)</option>
+              <option value="Quiet Waters & Seaside Stays">Quiet Waters & Seaside Stays</option>
+              <option value="Temples, Forts & Ancient Ports">Temples, Forts & Ancient Ports</option>
+            </select>
+          </div>
+          <div className="curator-btn-wrap">
+            <a className="button curator-btn" href={wa(query)} target="_blank" rel="noreferrer">
+              Plan on WhatsApp <ArrowRight size={14}/>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>;
+}
+
+function TravelerStories(){
+  const stories=[
+    {
+      q:"Sitting in an ancestral home in Thalassery eating hot dum biriyani with three generations of cooks—this was not sightseeing, it was true connection.",
+      a:"Priya & Sean",
+      loc:"Bengaluru & Melbourne",
+      tag:"Malabar Culinary Journey"
+    },
+    {
+      q:"Witnessing Theyyam in a village shrine at 2 AM was transcendent. Our host briefed us with so much reverence, care and respect for the local community.",
+      a:"Marcus & Elena",
+      loc:"Zurich, Switzerland",
+      tag:"Living Rituals Trail"
+    },
+    {
+      q:"Drifting through the quiet canals on a private wooden kettuvallam with fresh pearl spot fish cooked right in front of us. Unhurried, poetic South India.",
+      a:"Aditi & Rahul",
+      loc:"Mumbai",
+      tag:"Backwaters & Coast"
+    }
+  ];
+  return <section className="section stories-section">
+    <div className="wrap">
+      <div className="section-head">
+        <div>
+          <span className="eyebrow">Real Encounters</span>
+          <h2 className="display">Moments that stay with you.</h2>
+        </div>
+        <p className="section-intro">Notes from travellers who stepped past the postcards into the true rhythm of South India.</p>
+      </div>
+      <div className="stories-grid">
+        {stories.map(s=><div className="story-card" key={s.a}>
+          <div className="story-stars">★★★★★</div>
+          <p className="story-q">“{s.q}”</p>
+          <div className="story-meta">
+            <strong>{s.a}</strong>
+            <span>{s.loc} · <em>{s.tag}</em></span>
+          </div>
+        </div>)}
+      </div>
+    </div>
+  </section>;
+}
+
+function Home(){
+  return <>
+    <Metadata title="Malabar Ways | Journeys into the living South" description="Travel South India through the people, food, craft, landscape and living traditions of Kerala and Malabar with Malabar Ways."/>
+    <section className="hero">
+      <div className="wrap hero-content">
+        <div className="hero-pill">
+          <span className="hero-pill-dot"></span>
+          <span>Bespoke South India & Malabar Journeys</span>
+        </div>
+        <h1 className="display">Come for the<br/><i>land.</i> Stay for its stories.</h1>
+        <p>From a family kitchen in Malabar to the still waters of Kerala. Journeys made with the people who call this place home.</p>
+        <div className="hero-actions">
+          <Link className="button" href="/en/malabar-signatures">Explore Malabar <ArrowRight size={15}/></Link>
+          <Link className="button outline" href="/en/kerala-tours">Find your Kerala</Link>
+          <a className="button gold" href={wa('a custom South India journey')} target="_blank" rel="noreferrer"><MessageCircle size={15}/> Plan on WhatsApp</a>
+        </div>
+      </div>
+      <div className="hero-stats-bar">
+        <div className="wrap hero-stats-grid">
+          <div className="stat-item"><span className="stat-num">10+</span><span className="stat-lbl">Malabar Signatures</span></div>
+          <div className="stat-divider"></div>
+          <div className="stat-item"><span className="stat-num">100%</span><span className="stat-lbl">Private & Host-Led</span></div>
+          <div className="stat-divider"></div>
+          <div className="stat-item"><span className="stat-num">4.9★</span><span className="stat-lbl">Guest Experience</span></div>
+          <div className="stat-divider"></div>
+          <div className="stat-item"><span className="stat-num">Direct</span><span className="stat-lbl">Community Benefit</span></div>
+        </div>
+      </div>
+    </section>
+
+    <JourneyCurator/>
+
+    <section className="section">
+      <div className="wrap intro-grid">
+        <div>
+          <span className="eyebrow">A different way through</span>
+          <h2 className="display">More than a place<br/>to pass through.</h2>
+        </div>
+        <div>
+          <p className="intro-copy">Malabar Ways is where a journey begins with a scent. Fresh cardamom in a home kitchen. Wet clay on a potter’s wheel. Cotton threads on a handloom. We bring travellers close to the people, craft and traditions that keep South India alive.</p>
+          <p className="intro-note">“You will not just visit Malabar, Kerala or South India. You will live its stories.”</p>
+        </div>
+      </div>
+    </section>
+
+    <section className="section compact">
+      <div className="wrap">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Choose the feeling</span>
+            <h2 className="display">Where will the story take you?</h2>
+          </div>
+          <p className="section-intro">Pick one place, or let us connect the coast, hills, heritage and table into a journey that feels like yours.</p>
+        </div>
+        <div className="destination-grid">
+          {[{n:'South India',p:'/en/south-indian-tours',d:'Many worlds, one thoughtful journey.',badge:'11 DESTINATIONS'},{n:'Kerala',p:'/en/kerala-tours',d:'Backwaters, tea country and old ports.',badge:'8 DESTINATIONS'},{n:'Malabar Signatures',p:'/en/malabar-signatures',d:'The north Kerala few have seen.',badge:'10 SIGNATURES'}].map((x,i)=><Link href={x.p} className="destination-card" key={x.n}>
+            <span className="card-badge">{x.badge}</span>
+            <span className="card-no">0{i+1} / JOURNEYS</span>
+            <div>
+              <h3>{x.n}</h3>
+              <p>{x.d}</p>
+            </div>
+            <span className="arrow"><ArrowUpRight/></span>
+          </Link>)}
+        </div>
+      </div>
+    </section>
+
+    <section className="section dark-band">
+      <div className="wrap">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">The Malabar Ways difference</span>
+            <h2 className="display">Travel with a little more<br/><i>meaning.</i></h2>
+          </div>
+          <p className="section-intro">We work with local hosts, families, artists and artisans. The result is a journey that gives back to the places that make it unforgettable.</p>
+        </div>
+        <div className="reason-grid">
+          {[['Local knowledge','We live here. We know the kitchens, craft workshops and quiet corners.'],['Human encounters','Meet the people who carry the traditions, not just the landmarks.'],['Thoughtful arrivals','Airport and station pickups, private transfers and a clear road ahead.'],['A fair exchange','Your visit supports the hosts, artists and communities you meet.'],['Your own pace','A single experience or a fully custom route. We shape it together.']].map(([t,p])=><div className="reason" key={t}><strong>{t}</strong><p>{p}</p></div>)}
+        </div>
+      </div>
+    </section>
+
+    <section className="section">
+      <div className="wrap">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Meet the living traditions</span>
+            <h2 className="display">Not behind glass.<br/>Part of everyday life.</h2>
+          </div>
+          <Link href="/en/experiences" className="button outline">All experiences <ArrowRight size={14}/></Link>
+        </div>
+        <div className="experiences-grid">
+          {experiences.slice(0,4).map((e,i)=><Link href={`/en/experiences/${e.slug}`} className="experience-tile" key={e.slug}>
+            <span>Experience 0{i+1}</span>
+            <div>
+              <h3>{e.title}</h3>
+              <p>{e.tagline}</p>
+            </div>
+            <div className="tile-link">Discover <ArrowUpRight size={15}/></div>
+          </Link>)}
+        </div>
+      </div>
+    </section>
+
+    <TravelerStories/>
+
+    <section className="quote-band">
+      <div className="wrap">
+        <p>“A place is never only its scenery. It is the hands that cook, make, welcome and remember.”</p>
+      </div>
+    </section>
+
+    <CTA context="a South India journey"/>
+    <VideoSection id="3WvLkuteM3M" title="Malabar"/>
+  </>;
+}
 function DestinationCard({d,index,prefix}:{d:Destination;index:number;prefix:string}){return <Link href={`${prefix}/${slugify(d.name)}`} className="destination-card" data-testid={`card-destination-${slugify(d.name)}`}><img className="card-photo" src={destinationImage(d)} alt="" aria-hidden="true" loading="lazy" onError={(event)=>{event.currentTarget.style.display='none'}}/><span className="card-no">{String(index+1).padStart(2,'0')} / DESTINATION</span><div><h3>{d.name}</h3><p>{d.tagline}</p></div><span className="arrow"><ArrowUpRight/></span></Link>}
 function JourneyList({items,prefix}:{items:Destination[];prefix:string}){return <div className="journey-list">{items.map((d,i)=><article className="journey" key={d.name}><div className="journey-number">{String(i+1).padStart(2,'0')}</div><div><h3>{d.name}</h3><span className="duration">{d.duration}</span></div><p>{d.intro}</p><Link className="arrow" aria-label={`Explore ${d.name}`} href={`${prefix}/${slugify(d.name)}`}><ArrowUpRight/></Link><details><summary>Journey details</summary><div className="itinerary">{d.itinerary.map((item,n)=><article key={n}><h4>{item.split(' · ')[0]}</h4><p>{item.includes(' · ')?item.split(' · ').slice(1).join(' · '):item}</p></article>)}</div></details></article>)}</div>}
 function Collection({kind}:{kind:'south'|'kerala'|'malabar'}){const cfg={south:{title:'Pick Your South India.',intro:'Ancient temples, coffee hills, quiet beaches and biriyani lanes. Choose the place that calls you, and we will take care of the rest.',copy:'South India is not one place. It is many worlds, each with its own language, food and rhythm. Choose a destination, and we shape your trip around real people, real kitchens and real traditions. Add a neighbour whenever you like.',desc:'South India tour packages across heritage, food, hill country and coast.',items:south,video:'nOARyo6dOLc',path:'/en/south-indian-tours',eyebrow:'Many worlds. One thoughtful route.'},kerala:{title:'Kerala, Beyond the Postcard.',intro:'Drift through backwaters, climb into tea clouds, walk where ancient ships once docked, and eat at tables that have fed the world for centuries.',copy:'Kerala’s green coast drew Arab, Roman, Chinese and European traders long before holidaymakers. Every one left a mark on its mosques, churches, temples, food and faces. Choose a destination and we turn it into a journey with real people, kitchens and stories.',desc:'Kerala tours from backwaters and hills to heritage and Malabar.',items:kerala,video:'MC9gTqOeGSw',path:'/en/kerala-tours',eyebrow:'Water, spice, story.'},malabar:{title:'Malabar. The Kerala Few Have Seen.',intro:'Fire-lit Theyyam nights, biriyani from family kitchens, empty beaches and misty hills. This is our signature, and it is ours alone.',copy:'Most visitors meet Kerala’s south and middle. Malabar waits quietly beyond: wild coast, red-laterite forts, forested hills and backwaters few travellers reach. This is where Kerala’s oldest trade stories began, where faiths share a village and arts like Theyyam, Oppana and Kolkkali live as part of ordinary life.',desc:'Malabar journeys through North Kerala’s food, living culture, coast and hills.',items:malabar,video:'3WvLkuteM3M',path:'/en/malabar-signatures',eyebrow:'Rooted in the north. Open to the world.'}}[kind];const prefix=cfg.path;const destinations=(<section className="section" id="destinations"><div className="wrap"><div className="section-head"><div><span className="eyebrow">Choose your destination</span><h2 className="display">{kind==='malabar'?'Ten destinations. Countless stories.':'Start with the place that calls.'}</h2></div><p className="section-intro">{kind==='malabar'?'Combine coastal towns, historic mosques, craft, Theyyam, paddy fields and mountain escapes.':'Each stay length is a guide. Combine nearby places and customise the itinerary.'}</p></div><div className="destination-grid">{cfg.items.map((d,i)=><DestinationCard key={d.name} d={d} index={i} prefix={prefix}/>)}</div></div></section>);return <><Metadata title={`${cfg.title} | Malabar Ways`} description={cfg.desc}/><section className="page-hero"><div className="wrap"><div className="breadcrumb">Malabar Ways / Journeys</div><span className="eyebrow">{cfg.eyebrow}</span><h1 className="display">{cfg.title}</h1><p>{cfg.intro}</p><div className="hero-actions" style={{marginTop:26}}><a className="button" href="#destinations">Choose a destination <ArrowRight size={14}/></a><a className="button outline" href={wa(kind==='south'?'a custom South India trip':kind==='kerala'?'a custom Kerala trip':'a Malabar Signatures journey')} target="_blank" rel="noreferrer">Plan a custom trip</a></div></div></section>{destinations}<section className="section"><div className="wrap intro-grid"><div><span className="eyebrow">A region in many layers</span><h2 className="display">This is not a route<br/>from a catalogue.</h2></div><div><p className="intro-copy">{cfg.copy}</p><p className="intro-note">{kind==='malabar'?'Food trails, living arts and landscapes few visitors find.':'Choose the place. We will shape everything around it.'}</p></div></div></section><section className="section dark-band"><div className="wrap"><div className="section-head"><div><span className="eyebrow">Why this place feels different</span><h2 className="display">{kind==='south'?'An entire world, close at hand.':kind==='kerala'?'A coast shaped by the world.':'The north side, at its own pace.'}</h2></div><p className="section-intro">{kind==='malabar'?'Food, arts, open coast and living heritage in the hands of local hosts.':'A rare closeness of cultures, landscapes and traditions.'}</p></div><div className="reason-grid">{(kind==='south'?[['Temples as towns','Carved stone and ritual rhythms that continue today.'],['Art still alive','Dance, music and ritual theatre are part of daily life.'],['A different table','Rice, coconut, dosa, filter coffee and biriyani.'],['Many faiths, one street','Mosques, churches and temples share the landscape.'],['Landscapes close by','Beaches, rainforest, tea hills and ancient ruins.']]:kind==='kerala'?[['Water everywhere','Backwaters, lakes, rivers and a long warm coast.'],['Spice that shaped history','Pepper and cardamom once drew the world’s ships.'],['Many faiths, one welcome','Ancient mosques, synagogues, churches and temples.'],['Art you can feel','Kathakali, Theyyam and festivals live here.'],['A feast on a leaf','Sadya, fish curry, appam, biriyani and coconut.']]:[['Food trails','Biriyani, Calicut halwa, snacks and home cooking.'],['Art you can watch','Oppana, Theyyam, Kolkkali and Mappila songs.'],['Nature in every direction','Beaches, hills, rainforest, rivers and backwaters.'],['Heritage you can touch','Mosques, temples, forts, handloom and pottery.'],['Small and responsible','Local hosts and fair work for communities.']]).map(([t,p])=><div className="reason" key={t}><strong>{t}</strong><p>{p}</p></div>)}</div></div></section><section className="section compact"><div className="wrap"><div className="section-head"><div><span className="eyebrow">The shape of the journey</span><h2 className="display">Every detail, considered.</h2></div><p className="section-intro">{kind==='south'?'Easy arrivals. Private transfers. Local hosts, kitchens and craftspeople.':kind==='kerala'?'Two to three days per destination is a lovely pace; a full Kerala journey takes 7 to 10 days.':'One day or a full week. Choose a destination and we plan the road between.'}</p></div><JourneyList items={cfg.items} prefix={prefix}/></div></section><section className="section compact"><div className="wrap"><div className="section-head"><div><span className="eyebrow">A few helpful notes</span><h2 className="display">Good to know.</h2></div></div><div className="faq">{(kind==='south'?[['When should I come?','October to March for most places. For Goa, November to February.'],['Do I need to plan everything?','No. Choose a destination and we shape the rest.'],['Can I combine destinations?','Yes. We plan the road between places and can continue into Kerala and Malabar.']]:kind==='kerala'?[['When is the best time to visit Kerala?','September to March for most places. The monsoon from June to August is the season for Ayurveda and green landscapes.'],['How long should I allow?','Two to three days per destination; a full Kerala journey takes 7 to 10 days.'],['Can I combine destinations?','Yes. Choose a pace and we will plan every road.']]:[['When should I visit Malabar?','October to March for most of the region. Theyyam is mostly seen from late autumn to spring.'],['Can I book one destination?','Yes. Combine several and we will plan the road between them.'],['What makes Malabar different?','It is quieter, rooted in local life, and still unexplored by most visitors.']]).map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div></div></section><CTA context={kind==='south'?'a South India trip':kind==='kerala'?'a Kerala package':'a Malabar journey'}/><VideoSection id={cfg.video} title={kind==='south'?'South India':kind==='kerala'?'Kerala':'Malabar'}/></>}
