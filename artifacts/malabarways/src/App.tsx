@@ -235,10 +235,7 @@ function Home(){
     <Metadata title="Malabar Ways | Journeys into the living South" description="Travel South India through the people, food, craft, landscape and living traditions of Kerala and Malabar with Malabar Ways."/>
     <section className="hero">
       <div className="wrap hero-content">
-        <div className="hero-pill">
-          <span className="hero-pill-dot"></span>
-          <span>Bespoke South India & Malabar Journeys</span>
-        </div>
+        <span className="eyebrow">South India, closer than you imagined</span>
         <h1 className="display">Come for the<br/><i>land.</i> Stay for its stories.</h1>
         <p>From a family kitchen in Malabar to the still waters of Kerala. Journeys made with the people who call this place home.</p>
         <div className="hero-actions">

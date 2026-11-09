@@ -47,9 +47,6 @@ body:has(.hero) .destination-card:nth-child(1)::before{background:linear-gradien
 .experience-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}.feature-list{list-style:none;padding:0;margin:22px 0}.feature-list li{padding:13px 0;border-bottom:1px solid #d8d0c1;font-size:14px}.feature-list li::before{content:"—";color:#ad8a31;margin-right:12px}
 .mobile-panel{display:none}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#f0ebe1}::-webkit-scrollbar-thumb{background:#164b3c;border-radius:4px}::-webkit-scrollbar-thumb:hover{background:#ad8a31}
-.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(215,180,88,.16);border:1px solid rgba(215,180,88,.42);backdrop-filter:blur(8px);color:#f7e7b5;padding:6px 14px;border-radius:99px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
-.hero-pill-dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399;animation:pulse-dot 2s infinite ease-in-out}
-@keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.65}}
 .hero-stats-bar{position:absolute;bottom:0;left:0;right:0;z-index:2;background:rgba(14,40,33,.88);backdrop-filter:blur(12px);border-top:1px solid rgba(215,180,88,.22);padding:15px 0}
 .hero-stats-grid{display:flex;align-items:center;justify-content:space-around;gap:14px;flex-wrap:wrap}
 .stat-item{display:flex;flex-direction:column;align-items:center;text-align:center}
